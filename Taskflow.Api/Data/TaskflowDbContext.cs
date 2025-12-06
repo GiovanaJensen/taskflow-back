@@ -10,5 +10,7 @@ namespace Taskflow.Api.Data
             
         }
         public DbSet<User> users { get; set; }
+        public DbSet<Category> categories { get; set; }
+        public DbSet<TaskItem> taskItems { get; set; }
     }
 }
