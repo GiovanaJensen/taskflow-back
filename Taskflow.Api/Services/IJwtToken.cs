@@ -2,7 +2,7 @@ namespace Taskflow.Api.Services
 {
     public interface IJwtService
     {
-        string GenerateToken(string userId, string username, string role);
+        string GenerateToken(long userId, string fullname, string email);
         DateTime GetExpiry();
     }
 }

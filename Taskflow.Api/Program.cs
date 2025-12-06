@@ -6,6 +6,8 @@ using Microsoft.OpenApi.Models;
 using Taskflow.Api.Repositories.Interfaces;
 using Taskflow.Api.Repositories;
 using Taskflow.Api.Services;
+using Taskflow.Api.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,10 +31,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddSingleton<IUserRepository, InMemoryUserRepository>();
 builder.Services.AddSingleton<IJwtService>(sp =>
     new JwtService(jwtKey, "Taskflow", "Taskflow.Api", 60)
 );
+
+builder.Services.AddDbContext<TaskflowDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 builder.Services.AddControllers();
 
