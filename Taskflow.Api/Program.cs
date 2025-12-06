@@ -8,6 +8,7 @@ using Taskflow.Api.Repositories;
 using Taskflow.Api.Services;
 using Taskflow.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using Taskflow.Api.Services.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,8 @@ builder.Services.AddDbContext<TaskflowDbContext>(options =>
 );
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddSingleton<ITokenService, TokenService>();
 
 builder.Services.AddControllers();
 
