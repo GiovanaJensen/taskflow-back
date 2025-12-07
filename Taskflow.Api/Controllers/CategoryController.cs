@@ -39,6 +39,13 @@ namespace Taskflow.Api.Controllers
             return Ok(deleted);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetCategories()
+        {
+            var categories = await _categoryService.GetCategoriesAsync();
+            return Ok(categories);
+        }
+
     }
 
 }

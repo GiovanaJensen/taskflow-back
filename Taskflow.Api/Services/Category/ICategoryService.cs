@@ -6,6 +6,7 @@ namespace Taskflow.Api.Services
     {
         Task<CreateCategoryResponse?> CreateCategoryAsync(CreateCategoryRequest request);
         Task<CreateCategoryResponse?> UpdateCategoryAsync(UpdateCategoryRequest request);
+        Task<List<GetCategoriesResponse>> GetCategoriesAsync();
         Task<string?> DeleteCategoryAsync(long id);
     }
 }

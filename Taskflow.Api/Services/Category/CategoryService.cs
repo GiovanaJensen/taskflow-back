@@ -77,5 +77,22 @@ namespace Taskflow.Api.Services
 
             return $"A Categoria {nome} foi excluída com sucesso!";
         }
+        public async Task<List<GetCategoriesResponse>> GetCategoriesAsync()
+        {
+            var userId = long.Parse(_httpContextAccessor.HttpContext!.User
+                    .FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var categories = await _db.categories
+                .Where(c => c.UserId == userId)
+                .Select(c => new GetCategoriesResponse
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.Description
+                })
+                .ToListAsync();
+
+            return categories;
+        }
     }
 }
