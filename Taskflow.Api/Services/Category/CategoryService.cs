@@ -43,5 +43,39 @@ namespace Taskflow.Api.Services
                 Description = category.Description,
             };
         }
+        public async Task<CreateCategoryResponse?> UpdateCategoryAsync(UpdateCategoryRequest request)
+        {
+            var category = await _db.categories.FirstOrDefaultAsync(c => c.Id == request.Id);
+
+            if(category is null)
+                throw new BadRequestException("A categoria não existe na base de dados");
+
+            category.Name = request.Name;
+            category.Description = request.Description;
+
+            _db.categories.Update(category);
+            await _db.SaveChangesAsync();
+
+            return new CreateCategoryResponse
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+            };
+        }
+        public async Task<string?> DeleteCategoryAsync(long id)
+        {
+            var category = await _db.categories.FirstOrDefaultAsync(c => c.Id == id);
+
+            if(category is null)
+                throw new BadRequestException("A categoria não existe na base de dados");
+
+            string nome = category.Name;
+
+            _db.categories.Remove(category);
+            await _db.SaveChangesAsync();
+
+            return $"A Categoria {nome} foi excluída com sucesso!";
+        }
     }
 }

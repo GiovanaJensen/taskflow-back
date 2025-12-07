@@ -25,6 +25,20 @@ namespace Taskflow.Api.Controllers
             return Ok(created);
         }
 
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryRequest request)
+        {
+            var updated = await _categoryService.UpdateCategoryAsync(request);
+            return Ok(updated);
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteCategory(long id)
+        {
+            var deleted = await _categoryService.DeleteCategoryAsync(id);
+            return Ok(deleted);
+        }
+
     }
 
 }

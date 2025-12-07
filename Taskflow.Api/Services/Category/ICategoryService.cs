@@ -5,5 +5,7 @@ namespace Taskflow.Api.Services
     public interface ICategoryService
     {
         Task<CreateCategoryResponse?> CreateCategoryAsync(CreateCategoryRequest request);
+        Task<CreateCategoryResponse?> UpdateCategoryAsync(UpdateCategoryRequest request);
+        Task<string?> DeleteCategoryAsync(long id);
     }
 }
