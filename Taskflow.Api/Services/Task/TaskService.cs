@@ -58,6 +58,28 @@ namespace Taskflow.Api.Services
                 CategoryId = task.CategoryId
             };
         }
+        public async Task<CreateTaskResponse?> FinishTaskAsync(FinishTaskRequest request)
+        {
+            var task = await _db.taskItems.FirstOrDefaultAsync(c => c.Id == request.Id);
+
+            if (task is null)
+                throw new BadRequestException("A task não existe na base de dados");
+
+            task.IsCompleted = request.IsCompleted;
+
+            _db.taskItems.Update(task);
+            await _db.SaveChangesAsync();
+
+            return new CreateTaskResponse
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                Priority = task.Priority,
+                DueDate = task.DueDate,
+                CategoryId = task.CategoryId
+            };
+        }
         public async Task<CreateTaskResponse?> UpdateTaskAsync(UpdateTaskRequest request)
         {
             var task = await _db.taskItems.FirstOrDefaultAsync(c => c.Id == request.Id);
@@ -107,7 +129,7 @@ namespace Taskflow.Api.Services
             return $"A Task {task.Title} foi excluída com sucesso!";
         }
 
-        public async Task<List<GetTasksResponse>> GetTasksAsync()
+        public async Task<List<GetTasksResponse>> GetTasksAsync(bool isCompleted)
         {
             var userId = long.Parse(_httpContextAccessor.HttpContext!.User
                     .FindFirst(ClaimTypes.NameIdentifier)!.Value);
@@ -121,15 +143,25 @@ namespace Taskflow.Api.Services
                     Description = c.Description,
                     Priority = c.Priority,
                     DueDate = c.DueDate,
-                    CategoryId = c.CategoryId
+                    CategoryId = c.CategoryId,
                 })
                 .ToListAsync();
 
+            if (!isCompleted)
+            {
+                categories.Select(c => c.IsCompleted == false);
+            }
+
             return categories;
         }
-        public async Task<List<GetTasksResponse>> GetTasksByCategoryIdAsync(long categoryId)
+        public async Task<List<GetTasksResponse>> GetTasksByCategoryIdAsync(long categoryId, bool isCompleted)
         {
             var tasks = await _db.taskItems.Where(c => c.CategoryId == categoryId).ToListAsync();
+
+            if (!isCompleted)
+            {
+                tasks.Select(c => c.IsCompleted == false);
+            }
 
             return tasks.Select(c => new GetTasksResponse
             {

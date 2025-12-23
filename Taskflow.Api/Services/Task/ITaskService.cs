@@ -7,8 +7,9 @@ namespace Taskflow.Api.Services
     {
         Task<CreateTaskResponse?> CreateTaskAsync(CreateTaskRequest request);
         Task<CreateTaskResponse?> UpdateTaskAsync(UpdateTaskRequest request);
-        Task<List<GetTasksResponse>> GetTasksAsync();
-        Task<List<GetTasksResponse>> GetTasksByCategoryIdAsync(long categoryId);
+        Task<CreateTaskResponse?> FinishTaskAsync(FinishTaskRequest request);
+        Task<List<GetTasksResponse>> GetTasksAsync(bool isCompleted);
+        Task<List<GetTasksResponse>> GetTasksByCategoryIdAsync(long categoryId, bool isCompleted);
         Task<List<GetTasksResponse>> GetTasksByPriorityAsync(TaskPriority priority);
         Task<string?> DeleteTaskAsync(long id);
     }

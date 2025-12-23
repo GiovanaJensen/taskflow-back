@@ -33,6 +33,12 @@ namespace Taskflow.Api.Controllers
             var updated = await _taskService.UpdateTaskAsync(request);
             return Ok(updated);
         }
+        [HttpPut("complete")]
+        public async Task<IActionResult> FinishTask(FinishTaskRequest request)
+        {
+            var updated = await _taskService.FinishTaskAsync(request);
+            return Ok(updated);
+        }
 
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteTask(long id)
@@ -42,16 +48,16 @@ namespace Taskflow.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTasks()
+        public async Task<IActionResult> GetTasks(bool isCompleted)
         {
-            var tasks = await _taskService.GetTasksAsync();
+            var tasks = await _taskService.GetTasksAsync(isCompleted);
             return Ok(tasks);
         }
 
         [HttpGet("category/{categoryId}")]
-        public async Task<IActionResult> GetTasksByCategoryId(long categoryId)
+        public async Task<IActionResult> GetTasksByCategoryId(long categoryId, bool isCompleted)
         {
-            var tasks = await _taskService.GetTasksByCategoryIdAsync(categoryId);
+            var tasks = await _taskService.GetTasksByCategoryIdAsync(categoryId, isCompleted);
             return Ok(tasks);
         }
 

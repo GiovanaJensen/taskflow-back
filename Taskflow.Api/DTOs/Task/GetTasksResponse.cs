@@ -10,5 +10,6 @@ namespace Taskflow.Api.DTOs.Task
         public TaskPriority Priority { get; set; }
         public DateTime? DueDate { get; set; }
         public long? CategoryId { get; set; }
+        public bool? IsCompleted { get; set; }
     }
 }
