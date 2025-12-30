@@ -144,6 +144,7 @@ namespace Taskflow.Api.Services
                     Priority = c.Priority,
                     DueDate = c.DueDate,
                     CategoryId = c.CategoryId,
+                    IsCompleted = c.IsCompleted
                 })
                 .ToListAsync();
 
@@ -170,7 +171,8 @@ namespace Taskflow.Api.Services
                 Description = c.Description,
                 Priority = c.Priority,
                 DueDate = c.DueDate,
-                CategoryId = c.CategoryId
+                CategoryId = c.CategoryId,
+                IsCompleted = c.IsCompleted
             }).ToList();
         }
 
